@@ -1,36 +1,160 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cypress FE
 
-## Getting Started
+A modern web application built with **Next.js 15**, **React**, **TypeScript**, and **Tailwind CSS**. The project follows a **Feature-Based Architecture**, organizing business logic into independent modules while keeping shared resources centralized. This structure improves scalability, maintainability, and code organization for large-scale applications.
 
-First, run the development server:
+---
+
+# Getting Started
+
+Install project dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
+
 # or
+
 yarn dev
+
 # or
+
 pnpm dev
+
 # or
+
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open your browser at:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The application will automatically reload whenever source files are modified.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+# Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```text
+CYPRESS_FE/
+│
+├── app/                 # Next.js App Router
+├── modules/             # Business features (Auth, Booking, Payment, ...)
+├── components/          # Shared UI components
+├── providers/           # Global Providers
+├── store/               # Global State Management
+├── lib/                 # Library Configurations
+├── config/              # Application Configurations
+├── constants/           # Global Constants
+├── hooks/               # Shared Custom Hooks
+├── types/               # Global Type Definitions
+├── utils/               # Shared Utility Functions
+├── styles/              # Global Styles
+├── public/              # Static Assets
+│
+├── middleware.ts
+├── package.json
+└── README.md
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+# Architecture
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The project adopts a **Feature-Based Architecture**, where each business domain is organized into its own module.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Example:
+
+```text
+modules/
+│
+├── auth/
+│   ├── api/
+│   ├── services/
+│   ├── hooks/
+│   ├── components/
+│   ├── schemas/
+│   ├── types/
+│   └── index.ts
+│
+├── booking/
+│   ├── api/
+│   ├── services/
+│   ├── hooks/
+│   ├── components/
+│   ├── schemas/
+│   ├── types/
+│   └── index.ts
+│
+├── payment/
+├── subscription/
+├── profile/
+└── shared/
+```
+
+Each feature encapsulates its own business logic, making the project easier to develop, maintain, and extend.
+
+---
+
+# Technologies
+
+- Next.js 15 (App Router)
+- React 19
+- TypeScript
+- Tailwind CSS
+- Axios
+- React Hook Form
+- Zod
+- Zustand
+- TanStack Query
+- ESLint
+- Prettier
+
+---
+
+# Scripts
+
+```bash
+npm run dev       # Start development server
+npm run build     # Build for production
+npm run start     # Start production server
+npm run lint      # Run ESLint
+```
+
+---
+
+# Deployment
+
+Build the application:
+
+```bash
+npm run build
+```
+
+Start the production server:
+
+```bash
+npm run start
+```
+
+The application can be deployed to:
+
+- Vercel
+- AWS
+- Azure
+- DigitalOcean
+- Docker
+
+---
+
+# License
+
+This project is intended for learning and internal development purposes.
+

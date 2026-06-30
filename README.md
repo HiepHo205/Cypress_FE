@@ -1,18 +1,18 @@
 # Cypress FE
 
-A modern web application built with **Next.js 15**, **React**, **TypeScript**, and **Tailwind CSS**. The project follows a **Layer-Based Architecture** to ensure scalability, maintainability, and clear separation of concerns.
+A modern web application built with **Next.js 15**, **React**, **TypeScript**, and **Tailwind CSS**. The project follows a **Feature-Based Architecture**, organizing business logic into independent modules while keeping shared resources centralized. This structure improves scalability, maintainability, and code organization for large-scale applications.
 
 ---
 
-## Getting Started
+# Getting Started
 
-First, install the project dependencies:
+Install project dependencies:
 
 ```bash
 npm install
 ```
 
-Then, run the development server:
+Run the development server:
 
 ```bash
 npm run dev
@@ -30,34 +30,34 @@ pnpm dev
 bun dev
 ```
 
-Open your browser and navigate to:
+Open your browser at:
 
 ```
 http://localhost:3000
 ```
 
-The application will automatically reload whenever you modify the source code.
+The application will automatically reload whenever source files are modified.
 
 ---
 
-## Project Structure
+# Project Structure
 
 ```text
 CYPRESS_FE/
 │
-├── app/
-├── modules/
-├── components/
-├── providers/
-├── lib/
-├── store/
-├── hooks/
-├── utils/
-├── constants/
-├── config/
-├── types/
-├── styles/
-├── public/
+├── app/                 # Next.js App Router
+├── modules/             # Business features (Auth, Booking, Payment, ...)
+├── components/          # Shared UI components
+├── providers/           # Global Providers
+├── store/               # Global State Management
+├── lib/                 # Library Configurations
+├── config/              # Application Configurations
+├── constants/           # Global Constants
+├── hooks/               # Shared Custom Hooks
+├── types/               # Global Type Definitions
+├── utils/               # Shared Utility Functions
+├── styles/              # Global Styles
+├── public/              # Static Assets
 │
 ├── middleware.ts
 ├── package.json
@@ -66,32 +66,73 @@ CYPRESS_FE/
 
 ---
 
-## Technologies
+# Architecture
+
+The project adopts a **Feature-Based Architecture**, where each business domain is organized into its own module.
+
+Example:
+
+```text
+modules/
+│
+├── auth/
+│   ├── api/
+│   ├── services/
+│   ├── hooks/
+│   ├── components/
+│   ├── schemas/
+│   ├── types/
+│   └── index.ts
+│
+├── booking/
+│   ├── api/
+│   ├── services/
+│   ├── hooks/
+│   ├── components/
+│   ├── schemas/
+│   ├── types/
+│   └── index.ts
+│
+├── payment/
+├── subscription/
+├── profile/
+└── shared/
+```
+
+Each feature encapsulates its own business logic, making the project easier to develop, maintain, and extend.
+
+---
+
+# Technologies
 
 - Next.js 15 (App Router)
-- React
+- React 19
 - TypeScript
 - Tailwind CSS
 - Axios
 - React Hook Form
 - Zod
 - Zustand
+- TanStack Query
+- ESLint
+- Prettier
 
 ---
 
-## Learn More
+# Scripts
 
-To learn more about Next.js, refer to the following official resources:
-
-- Next.js Documentation: https://nextjs.org/docs
-- Learn Next.js: https://nextjs.org/learn
-- Next.js GitHub Repository: https://github.com/vercel/next.js
+```bash
+npm run dev       # Start development server
+npm run build     # Build for production
+npm run start     # Start production server
+npm run lint      # Run ESLint
+```
 
 ---
 
-## Deployment
+# Deployment
 
-Create a production build:
+Build the application:
 
 ```bash
 npm run build
@@ -103,7 +144,7 @@ Start the production server:
 npm run start
 ```
 
-The application can be deployed to platforms such as:
+The application can be deployed to:
 
 - Vercel
 - AWS
@@ -111,14 +152,9 @@ The application can be deployed to platforms such as:
 - DigitalOcean
 - Docker
 
-For more information about deploying a Next.js application, visit:
-
-https://nextjs.org/docs/app/building-your-application/deploying
-
 ---
 
-## License
+# License
 
 This project is intended for learning and internal development purposes.
-
 

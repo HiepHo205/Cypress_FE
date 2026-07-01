@@ -1,6 +1,6 @@
 # Cypress FE
 
-A modern web application built with **Next.js 15**, **React**, **TypeScript**, and **Tailwind CSS**. The project follows a **Feature-Based Architecture** combined with **Internationalization (i18n)** to support multiple languages while keeping business logic modular, scalable, and maintainable.
+A modern web application built with **Next.js 15**, **React**, **TypeScript**, and **Tailwind CSS**. The project follows a **Feature-Based Architecture**, organizing business logic into independent modules while keeping shared resources centralized. This structure improves scalability, maintainability, and code organization for large-scale applications.
 
 ---
 
@@ -30,13 +30,13 @@ pnpm dev
 bun dev
 ```
 
-Open your browser:
+Open your browser at:
 
-```text
+```
 http://localhost:3000
 ```
 
-The application automatically reloads whenever source files are modified.
+The application will automatically reload whenever source files are modified.
 
 ---
 
@@ -45,81 +45,61 @@ The application automatically reloads whenever source files are modified.
 ```text
 CYPRESS_FE/
 │
-├── app/
-│   ├── [locale]/              # Localized routes (Next.js App Router)
-│   │   ├── (public)/          # Public pages
-│   │   ├── (auth)/            # Authentication pages
-│   │   ├── (dashboard)/       # Protected dashboard pages
-│   │   ├── layout.tsx         # Locale layout
-│   │   ├── page.tsx           # Home page
-│   │   ├── loading.tsx        # Loading UI
-│   │   ├── error.tsx          # Error page
-│   │   └── not-found.tsx      # 404 page
+├── app/                 # Next.js App Router
+├── modules/             # Business features (Auth, Booking, Payment, ...)
+├── components/          # Shared UI components
+├── providers/           # Global Providers
+├── store/               # Global State Management
+├── lib/                 # Library Configurations
+├── config/              # Application Configurations
+├── constants/           # Global Constants
+├── hooks/               # Shared Custom Hooks
+├── types/               # Global Type Definitions
+├── utils/               # Shared Utility Functions
+├── styles/              # Global Styles
+├── public/              # Static Assets
 │
-├── messages/                  # Translation resources
-│   ├── en.json                # English translations
-│   └── vi.json                # Vietnamese translations
-│
-├── i18n/                      # Internationalization configuration
-│   ├── config.ts
-│   └── request.ts
-│
-├── modules/                   # Feature modules
-│   ├── auth/
-│   ├── booking/
-│   ├── payment/
-│   ├── subscription/
-│   ├── service/
-│   ├── blog/
-│   ├── case-study/
-│   ├── pricing/
-│   ├── faq/
-│   ├── contact/
-│   ├── profile/
-│   └── shared/
-│
-├── components/                # Shared UI Components
-│   ├── ui/
-│   ├── layout/
-│   └── shared/
-│
-├── providers/                 # Global Providers
-├── store/                     # Zustand Store
-├── lib/                       # Library Configuration
-├── config/                    # Application Configuration
-├── constants/                 # Global Constants
-├── hooks/                     # Shared Hooks
-├── types/                     # Global Types
-├── utils/                     # Utility Functions
-├── styles/                    # Global Styles
-├── public/                    # Static Assets
-│
-├── middleware.ts              # Locale & Route Middleware
+├── middleware.ts
 ├── package.json
 └── README.md
 ```
 
 ---
 
-# Feature Module Structure
+# Architecture
 
-Each business feature is organized independently.
+The project adopts a **Feature-Based Architecture**, where each business domain is organized into its own module.
 
 Example:
 
 ```text
 modules/
-└── auth/
-    ├── api/               # API requests
-    ├── services/          # Business logic
-    ├── hooks/             # Feature hooks
-    ├── components/        # Feature UI
-    ├── schemas/           # Zod validation schemas
-    ├── types/             # TypeScript types
-    └── index.ts           # Module exports
+│
+├── auth/
+│   ├── api/
+│   ├── services/
+│   ├── hooks/
+│   ├── components/
+│   ├── schemas/
+│   ├── types/
+│   └── index.ts
+│
+├── booking/
+│   ├── api/
+│   ├── services/
+│   ├── hooks/
+│   ├── components/
+│   ├── schemas/
+│   ├── types/
+│   └── index.ts
+│
+├── payment/
+├── subscription/
+├── profile/
+└── shared/
 ```
 
-This architecture keeps each feature self-contained, making the project easier to maintain and extend.
+Each feature encapsulates its own business logic, making the project easier to develop, maintain, and extend.
 
 ---
 
@@ -134,35 +114,31 @@ This architecture keeps each feature self-contained, making the project easier t
 - Zod
 - Zustand
 - TanStack Query
-- next-intl (Internationalization)
 - ESLint
 - Prettier
 
 ---
 
-# Available Scripts
+# Scripts
 
 ```bash
-npm run dev      # Start development server
-
-npm run build    # Build production bundle
-
-npm run start    # Start production server
-
-npm run lint     # Run ESLint
+npm run dev       # Start development server
+npm run build     # Build for production
+npm run start     # Start production server
+npm run lint      # Run ESLint
 ```
 
 ---
 
 # Deployment
 
-Build the project:
+Build the application:
 
 ```bash
 npm run build
 ```
 
-Run the production server:
+Start the production server:
 
 ```bash
 npm run start
@@ -181,3 +157,4 @@ The application can be deployed to:
 # License
 
 This project is intended for learning and internal development purposes.
+

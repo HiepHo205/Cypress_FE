@@ -23,10 +23,6 @@ export default function AuthFormLayout({ children }: AuthFormLayoutProps) {
               Adventure <br />
               starts here
             </h1>
-
-            <p className="text-sm leading-7 opacity-95">
-              Manage your CMS platform, content and administration in one place.
-            </p>
           </div>
 
           <div className="absolute w-[130px] h-[130px] border-8 border-white/80 rounded-full bottom-[-55px] right-[-45px]" />

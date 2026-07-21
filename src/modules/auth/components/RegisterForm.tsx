@@ -44,9 +44,7 @@ export default function RegisterForm() {
       <h2 className="text-xl text-center font-semibold text-gray-800">
         Create your Account
       </h2>
-      <p className="text-center text-xs text-gray-500 mb-4">
-        Join Cypress Hub Admin Portal
-      </p>
+      <p className="text-center text-xs text-gray-500 mb-4">Join Cypress Hub</p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
         <div>

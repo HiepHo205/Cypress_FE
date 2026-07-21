@@ -33,7 +33,7 @@ export default function LoginForm() {
       </h2>
 
       <p className="text-center text-sm text-gray-500 mb-6">
-        Login to access Admin Portal
+        Login to access Cypress Hub
       </p>
 
       <form onSubmit={submit} className="space-y-4">

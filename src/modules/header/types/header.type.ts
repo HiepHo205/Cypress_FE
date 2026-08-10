@@ -1,7 +1,7 @@
 export interface HeaderChild {
   id: string;
   label: string | null;
-  href: string | null;
+  url: string | null;
 }
 
 export interface HeaderMenu {
@@ -21,7 +21,14 @@ export interface Countdown {
 }
 
 export interface HeaderData {
-  logo: string | null;
+  logoData: {
+    logo: string | null;
+  } | null;
+
+  favicon: {
+    url: string | null;
+  } | null;
+
   menus: HeaderMenu[];
   cta: HeaderCTA | null;
   countdown: Countdown | null;

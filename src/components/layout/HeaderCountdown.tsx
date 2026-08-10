@@ -1,14 +1,19 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
-import { Zap } from "lucide-react";
 
 interface Props {
   targetDate?: string | null;
   enabled?: boolean;
+  faviconUrl?: string | null;
 }
 
-export default function HeaderCountdown({ targetDate, enabled = true }: Props) {
+export default function HeaderCountdown({
+  targetDate,
+  enabled = true,
+  faviconUrl,
+}: Props) {
   const [countdown, setCountdown] = useState({
     days: 0,
     hours: "00",
@@ -17,25 +22,33 @@ export default function HeaderCountdown({ targetDate, enabled = true }: Props) {
   });
 
   useEffect(() => {
-    console.log("targetDate:", targetDate);
-    console.log("enabled:", enabled);
-
     if (!targetDate || !enabled) {
       return;
     }
+    const startDate = new Date(targetDate.replace(" ", "T"));
+
+    if (isNaN(startDate.getTime())) {
+      return;
+    }
+    const endOfYear = new Date(startDate.getFullYear(), 11, 31, 23, 59, 59);
 
     const updateCountdown = () => {
-      const inputDate = new Date(targetDate.replace(" ", "T"));
+      const now = new Date();
 
-      const target = new Date(inputDate.getFullYear(), 11, 31, 23, 59, 59);
-      let diff = target.getTime() - inputDate.getTime();
+      let diff = endOfYear.getTime() - now.getTime();
+
       if (diff < 0) {
         diff = 0;
       }
+
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
       diff %= 1000 * 60 * 60 * 24;
+
       const hours = Math.floor(diff / (1000 * 60 * 60));
+
       diff %= 1000 * 60 * 60;
+
       const minutes = Math.floor(diff / (1000 * 60));
 
       diff %= 1000 * 60;
@@ -54,7 +67,9 @@ export default function HeaderCountdown({ targetDate, enabled = true }: Props) {
 
     const timer = setInterval(updateCountdown, 1000);
 
-    return () => clearInterval(timer);
+    return () => {
+      clearInterval(timer);
+    };
   }, [targetDate, enabled]);
 
   if (!enabled || !targetDate) {
@@ -63,9 +78,17 @@ export default function HeaderCountdown({ targetDate, enabled = true }: Props) {
 
   return (
     <div className="flex items-center justify-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-4 py-2 text-gray-700">
-      <Zap className="h-4 w-4 text-blue-500" />
+      {faviconUrl ? (
+        <Image
+          src={faviconUrl}
+          alt="Cypress"
+          width={40}
+          height={40}
+          className="h-6 w-6 object-contain"
+        />
+      ) : null}
 
-      <span className="text-sm font-medium whitespace-nowrap">
+      <span className="whitespace-nowrap text-sm font-medium">
         {countdown.days} d : {countdown.hours} h : {countdown.minutes} m :{" "}
         {countdown.seconds} s
       </span>

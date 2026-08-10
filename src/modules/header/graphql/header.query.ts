@@ -1,23 +1,38 @@
 export const GET_HEADER = `
-  query GetHeader {
-    header {
-      logo
+query GetHeader {
+  header {
+    logo
 
-      menus {
+    menus {
+      id
+      label
+      children {
         id
         label
-        children {
-          id
-          label
-          href
-        }
+        url
       }
+    }
 
-      cta {
+    cta {
+      label
+      href
+    }
+
+    countdown {
+      enabled
+      target_date
+      button {
         label
         href
       }
+    }
+  }
+}
+`;
 
+export const GET_HEADER_COUNTDOWN = `
+  query GetHeaderCountdown {
+    header {
       countdown {
         enabled
         target_date
@@ -26,6 +41,15 @@ export const GET_HEADER = `
           href
         }
       }
+    }
+  }
+`;
+
+export const GET_FAVICON = ` query GetFavicon { getFavicon { url public_id } } `;
+export const GET_LOGO = `
+  query GetLogo {
+    getLogo {
+      logo
     }
   }
 `;

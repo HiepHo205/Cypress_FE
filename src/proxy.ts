@@ -2,15 +2,27 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 const locales = ["vi", "en"];
+
 const defaultLocale = "vi";
-const publicRoutes = ["/login", "/register", "/forgot-password"];
+
+const publicRoutes = [
+  "/",
+  "/home",
+  "/login",
+  "/register",
+  "/forgot-password",
+  "/blog",
+  "/pricing",
+  "/faq",
+  "/contact",
+];
 
 export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (pathname === "/") {
     return NextResponse.redirect(
-      new URL(`/${defaultLocale}/login`, request.url),
+      new URL(`/${defaultLocale}/home`, request.url),
     );
   }
 
@@ -25,7 +37,9 @@ export default function proxy(request: NextRequest) {
   }
 
   const segments = pathname.split("/");
+
   const currentLocale = segments[1];
+
   const pathnameWithoutLocale = "/" + segments.slice(2).join("/");
 
   const token = request.cookies.get("token")?.value;
@@ -42,7 +56,7 @@ export default function proxy(request: NextRequest) {
     );
   }
 
-  if (token && isPublicRoute) {
+  if (token && isPublicRoute && pathnameWithoutLocale === "/login") {
     return NextResponse.redirect(
       new URL(`/${currentLocale}/dashboard`, request.url),
     );

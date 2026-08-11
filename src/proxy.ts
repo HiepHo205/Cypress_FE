@@ -2,18 +2,23 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 const locales = ["vi", "en"];
-
 const defaultLocale = "vi";
 
 const publicRoutes = [
   "/",
   "/home",
+  "/about-us",
+  "/vision-mission",
+  "/case-studies",
+  "/news",
+  "/faq",
+  "/pricings",
+  "/contact-us",
   "/login",
   "/register",
   "/forgot-password",
   "/blog",
   "/pricing",
-  "/faq",
   "/contact",
 ];
 
@@ -37,7 +42,6 @@ export default function proxy(request: NextRequest) {
   }
 
   const segments = pathname.split("/");
-
   const currentLocale = segments[1];
 
   const pathnameWithoutLocale = "/" + segments.slice(2).join("/");

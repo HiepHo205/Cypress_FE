@@ -1,4 +1,5 @@
-import Header from "@/src/components/layout/Header";
+import { Footer } from "@/src/components/layout/Footer";
+import { Header } from "@/src/components/layout/Header";
 
 export default function LocaleLayout({
   children,
@@ -9,6 +10,7 @@ export default function LocaleLayout({
     <>
       <Header />
       <main>{children}</main>
+      <Footer />
     </>
   );
 }

@@ -22,25 +22,11 @@ export function useHeader() {
           getLogo(),
         ]);
 
-        console.log("========== USE HEADER ==========");
-
-        console.log("Header:", headerData);
-
-        console.log("Favicon:", faviconData);
-
-        console.log("Logo:", logoData);
-
         const finalHeader = {
           ...headerData,
           favicon: faviconData,
           logoData: logoData,
         };
-
-        console.log("Final Header:", finalHeader);
-
-        console.log("Favicon URL:", finalHeader.favicon?.url);
-
-        console.log("Logo URL:", finalHeader.logoData?.logo);
 
         setHeader(finalHeader);
       } catch (err) {

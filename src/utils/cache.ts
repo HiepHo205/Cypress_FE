@@ -1,34 +1,58 @@
 type CacheItem<T> = {
   data: T;
-  expiry: number;
 };
 
-const cache = new Map<string, CacheItem<unknown>>();
-
 export function getCache<T>(key: string): T | null {
-  const item = cache.get(key);
-
-  if (!item) return null;
-
-  if (Date.now() > item.expiry) {
-    cache.delete(key);
+  if (typeof window === "undefined") {
     return null;
   }
 
-  return item.data as T;
+  try {
+    const cached = localStorage.getItem(key);
+
+    if (!cached) {
+      return null;
+    }
+
+    const item: CacheItem<T> = JSON.parse(cached);
+
+    return item.data;
+  } catch (error) {
+    console.error(`Failed to get cache "${key}":`, error);
+    localStorage.removeItem(key);
+
+    return null;
+  }
 }
 
-export function setCache<T>(key: string, data: T, ttl = 5 * 60 * 1000) {
-  cache.set(key, {
-    data,
-    expiry: Date.now() + ttl,
-  });
+export function setCache<T>(key: string, data: T): void {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  try {
+    const item: CacheItem<T> = {
+      data,
+    };
+
+    localStorage.setItem(key, JSON.stringify(item));
+  } catch (error) {
+    console.error(`Failed to set cache "${key}":`, error);
+  }
 }
 
-export function removeCache(key: string) {
-  cache.delete(key);
+export function removeCache(key: string): void {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  localStorage.removeItem(key);
 }
 
-export function clearCache() {
-  cache.clear();
+export function clearCache(): void {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  localStorage.clear();
 }

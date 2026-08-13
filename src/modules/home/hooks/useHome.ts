@@ -9,23 +9,27 @@ const HOME_CACHE_KEY = "homepage_v2";
 
 export function useHome() {
   const [homepage, setHomepage] = useState<HomepageData | null>(null);
-
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let mounted = true;
 
     const fetchHome = async () => {
-      try {
-        const cached = getCache<HomepageData>(HOME_CACHE_KEY);
+      const cached = getCache<HomepageData>(HOME_CACHE_KEY);
 
-        if (cached) {
-          if (mounted) {
-            setHomepage(cached);
-          }
+      if (cached) {
+        console.log("Homepage: using cached data");
 
-          return;
+        if (mounted) {
+          setHomepage(cached);
+          setLoading(false);
         }
+
+        return;
+      }
+
+      try {
+        console.log("Homepage: fetching from API");
 
         const data = await HomeService.getHomepage();
 
@@ -33,18 +37,14 @@ export function useHome() {
           throw new Error("Homepage response is empty");
         }
 
+        setCache(HOME_CACHE_KEY, data);
+
         if (mounted) {
           setHomepage(data);
         }
-
-        setCache<HomepageData>(
-          HOME_CACHE_KEY,
-
-          data,
-
-          5 * 60 * 1000,
-        );
       } catch (error) {
+        console.error("Failed to fetch homepage:", error);
+
         removeCache(HOME_CACHE_KEY);
       } finally {
         if (mounted) {
@@ -62,7 +62,6 @@ export function useHome() {
 
   return {
     homepage,
-
     loading,
   };
 }

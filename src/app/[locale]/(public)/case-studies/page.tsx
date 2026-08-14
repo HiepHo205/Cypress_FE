@@ -108,23 +108,24 @@ export default function CaseStudiesPage() {
   return (
     <main>
       <CaseStudyBanner banner={caseStudy.banner} />
-
-      <div className="mx-auto mt-10 flex w-full items-start gap-5 px-4 sm:px-8 lg:px-[100px]">
+      <div className="mx-auto mt-10 flex w-full items-start gap-5 px-4 sm:px-8 lg:pl-[100px] lg:pr-[70px]">
         <CaseStudySidebar
           categories={caseStudy.categories}
           selectedCategory={selectedCategory}
           onCategoryChange={handleCategoryChange}
         />
 
-        <CaseStudyGrid
-          items={currentItems}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-          search={search}
-          onSearchChange={handleSearchChange}
-          totalResults={filteredCaseStudies.length}
-        />
+        <div className="min-w-0 flex-1">
+          <CaseStudyGrid
+            items={currentItems}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            search={search}
+            onSearchChange={handleSearchChange}
+            totalResults={filteredCaseStudies.length}
+          />
+        </div>
       </div>
     </main>
   );

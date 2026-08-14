@@ -17,7 +17,7 @@ interface CaseStudyGridComponentProps extends CaseStudyGridProps {
 
 function CaseStudyCard({ item }: { item: CaseStudyItem }) {
   return (
-    <article className="flex h-[197px] w-[437px] gap-4 rounded-[16px] border border-[#e5ebf3] bg-white p-4 shadow-[0px_0px_8px_0px_#2B71D31F] transition hover:shadow-[0px_0px_12px_0px_#2B71D32B]">
+    <article className="flex h-[197px] w-full gap-4 rounded-[16px] border border-[#e5ebf3] bg-white p-4 shadow-[0px_0px_8px_0px_#2B71D31F] transition hover:shadow-[0px_0px_12px_0px_#2B71D32B]">
       <div className="relative h-[64px] w-[64px] shrink-0 overflow-hidden rounded-[8px] border border-[#dfe3e8] bg-white p-1">
         {item.image?.url ? (
           <Image
@@ -35,19 +35,19 @@ function CaseStudyCard({ item }: { item: CaseStudyItem }) {
       </div>
 
       <div className="min-w-0 flex-1">
-        <h3 className="h-[56px] w-[311px] line-clamp-2 font-['Inter'] text-[20px] font-bold leading-[28px] text-[#222]">
+        <h3 className="h-[56px] w-[311px] max-w-full line-clamp-2 font-['Inter'] text-[20px] font-bold leading-[28px] text-[#222]">
           {item.title}
         </h3>
 
-        <p className="mt-2 line-clamp-3 font-['Inter'] text-[12px] font-normal leading-[18px] text-[#737b87]">
+        <p className="mt-2 h-[56px] w-[311px] max-w-full line-clamp-2 font-['Inter'] text-[14px] font-normal leading-[24px] text-[#737b87]">
           {item.description}
         </p>
 
-        <div className="mt-3 flex flex-wrap gap-1">
+        <div className="mt-3 flex flex-wrap gap-2">
           {item.categories.map((category) => (
             <span
               key={category}
-              className="rounded-full border border-[#b9d5fa] bg-[#f1f7ff] px-2 py-1 font-['Inter'] text-[9px] leading-none text-[#1667c7]"
+              className="flex h-[32px] w-[110px] items-center justify-center rounded-[20px] border border-[#2B71D3] bg-[#EAF1FB] px-3 py-1 font-['Inter'] text-[14px] font-semibold leading-[24px] text-[#2B71D3]"
             >
               {category}
             </span>
@@ -120,13 +120,13 @@ export default function CaseStudyGrid({
   loading = false,
 }: CaseStudyGridComponentProps) {
   return (
-    <section className="relative w-[894px] shrink-0">
-      <div className="mb-5 flex h-[44px] w-[894px] items-center justify-between">
+    <section className="relative w-full shrink-0 pr-[70px]">
+      <div className="mb-5 flex h-[44px] w-full items-center justify-between">
         <p className="font-['Inter'] text-[14px] font-normal leading-[20px] text-[#737b87]">
           Showing {items.length} of {totalResults} results
         </p>
 
-        <div className="flex h-[44px] w-[318px] items-center rounded-[6px] bg-[#f8fafc] px-4">
+        <div className="flex h-[44px] w-[318px] shrink-0 items-center rounded-[6px] bg-[#f8fafc] px-4">
           <input
             type="text"
             value={search}
@@ -143,7 +143,7 @@ export default function CaseStudyGrid({
         </div>
       </div>
 
-      <div className="relative h-[1065px] w-[894px]">
+      <div className="relative min-h-[1065px] w-full">
         {!loading && items.length === 0 ? (
           <div className="flex h-[400px] w-full flex-col items-center justify-center">
             <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#f1f7ff]">
@@ -171,7 +171,7 @@ export default function CaseStudyGrid({
             )}
           </div>
         ) : (
-          <div className="grid h-[1065px] w-[894px] grid-cols-2 content-start gap-5">
+          <div className="grid w-full grid-cols-2 gap-5">
             {items.map((item) => (
               <CaseStudyCard key={item.id} item={item} />
             ))}

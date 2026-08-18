@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import CaseStudyBanner from "@/src/modules/case-study/components/CaseStudyBanner";
 import CaseStudyGrid from "@/src/modules/case-study/components/CaseStudyGrid";
 import CaseStudySidebar from "@/src/modules/case-study/components/CaseStudySidebar";
@@ -91,31 +91,65 @@ export default function CaseStudiesPage() {
 
   if (error) {
     return (
-      <main className="flex min-h-[400px] items-center justify-center">
-        <p className="text-sm text-red-500">{error}</p>
+      <main className="flex min-h-[400px] items-center justify-center px-4">
+        <p className="text-center text-sm text-red-500">{error}</p>
       </main>
     );
   }
 
   if (!caseStudy) {
     return (
-      <main className="flex min-h-[400px] items-center justify-center">
-        <p className="text-sm text-gray-400">Case study data is unavailable.</p>
+      <main className="flex min-h-[400px] items-center justify-center px-4">
+        <p className="text-center text-sm text-gray-400">
+          Case study data is unavailable.
+        </p>
       </main>
     );
   }
 
   return (
-    <main>
+    <main className="w-full overflow-x-hidden">
       <CaseStudyBanner banner={caseStudy.banner} />
-      <div className="mx-auto mt-10 flex w-full items-start gap-5 px-4 sm:px-8 lg:pl-[100px] lg:pr-[70px]">
+
+      <div
+        className="
+          mx-auto
+          mt-6
+          flex
+          w-full
+          max-w-[1600px]
+          flex-col
+          items-stretch
+          gap-5
+          px-4
+
+          sm:mt-8
+          sm:px-8
+
+          lg:mt-10
+          lg:flex-row
+          lg:items-start
+          lg:gap-5
+          lg:px-10
+
+          xl:px-[70px]
+          2xl:pl-[100px]
+          2xl:pr-[70px]
+        "
+      >
         <CaseStudySidebar
           categories={caseStudy.categories}
           selectedCategory={selectedCategory}
           onCategoryChange={handleCategoryChange}
         />
 
-        <div className="min-w-0 flex-1">
+        <div
+          className="
+            min-w-0
+            w-full
+            flex-1
+          "
+        >
           <CaseStudyGrid
             items={currentItems}
             currentPage={currentPage}

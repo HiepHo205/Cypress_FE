@@ -1,12 +1,10 @@
 "use client";
 
 import { Loading } from "@/src/components/common";
-import type { CaseStudyBanner as CaseStudyBannerType } from "../types/case-study.types";
-
-interface CaseStudyBannerProps {
-  banner: CaseStudyBannerType | null;
-}
-
+import type {
+  CaseStudyBannerProps,
+  CaseStudyBanner as CaseStudyBannerType,
+} from "../types/case-study.types";
 export default function CaseStudyBanner({ banner }: CaseStudyBannerProps) {
   if (!banner) {
     return (

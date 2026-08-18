@@ -2,10 +2,10 @@
 
 import { useCallback, useEffect, useState } from "react";
 import type { CaseStudyPage } from "../types/case-study.types";
-import { CaseStudyService } from "../services/case-study.services";
+import { CaseStudyApi } from "../api/case-study.api";
 import { getCache, setCache, removeCache } from "@/src/utils/cache";
 
-const CASE_STUDY_CACHE_KEY = "case_study_page_v1";
+const CASE_STUDY_CACHE_KEY = "case_study_page_v11";
 
 let caseStudyRequest: Promise<CaseStudyPage> | null = null;
 
@@ -20,7 +20,7 @@ const fetchCaseStudy = async (): Promise<CaseStudyPage> => {
     return caseStudyRequest;
   }
 
-  caseStudyRequest = CaseStudyService.getCaseStudyPage()
+  caseStudyRequest = CaseStudyApi.getCaseStudyPage()
     .then((data) => {
       setCache<CaseStudyPage>(CASE_STUDY_CACHE_KEY, data);
 
@@ -54,6 +54,8 @@ export function useCaseStudy(): UseCaseStudyReturn {
 
     const loadCaseStudy = async () => {
       try {
+        setLoading(true);
+
         const data = await fetchCaseStudy();
 
         if (cancelled) {
@@ -91,8 +93,10 @@ export function useCaseStudy(): UseCaseStudyReturn {
       setLoading(true);
       setError(null);
 
+      // Remove old cache
       removeCache(CASE_STUDY_CACHE_KEY);
 
+      // Call GraphQL again
       const data = await fetchCaseStudy();
 
       setCaseStudy(data);

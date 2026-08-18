@@ -1,4 +1,9 @@
+"use client";
+
 import Image from "next/image";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+
 import FooterSocialLinks from "./FooterSocialLinks";
 import type {
   FooterBranding,
@@ -16,9 +21,18 @@ export default function FooterBrand({
   logo,
   socials,
 }: FooterBrandProps) {
+  const params = useParams();
+
+  const locale = typeof params?.locale === "string" ? params.locale : "vi";
+
   return (
     <div className="flex flex-col">
-      <div className="flex items-center gap-3">
+      {/* Logo + Company name */}
+      <Link
+        href={`/${locale}/home`}
+        className="flex w-fit items-center gap-3"
+        aria-label={`${branding.company_name} Home`}
+      >
         <div className="relative h-11 w-11">
           {logo && (
             <Image
@@ -33,7 +47,7 @@ export default function FooterBrand({
         <span className="text-xl font-semibold tracking-tight">
           {branding.company_name}
         </span>
-      </div>
+      </Link>
 
       <p className="mt-5 max-w-[300px] text-sm leading-6 text-white/80">
         {branding.description}

@@ -364,26 +364,31 @@ export default function HomeContact() {
               </a>
             </p>
 
-            <button
-              type="submit"
-              className="
-                            mt-[24px]
-                            h-[48px]
-                            w-full
-                            rounded-[8px]
-                            bg-[#2F73D9]
-                            px-[20px]
-                            font-inter
-                            text-[14px]
-                            font-semibold
-                            text-white
-                            transition-colors
-                            hover:bg-[#2464C5]
-                            md:w-[215px]
-                        "
-            >
-              Submit
-            </button>
+            {homepageContact.buttonText && homepageContact.buttonUrl && (
+              <a
+                href={homepageContact.buttonUrl}
+                className="
+      mt-[24px]
+      inline-flex
+      h-[48px]
+      w-full
+      items-center
+      justify-center
+      rounded-[8px]
+      bg-[#2F73D9]
+      px-[20px]
+      font-inter
+      text-[14px]
+      font-semibold
+      text-white
+      transition-colors
+      hover:bg-[#2464C5]
+      md:w-[215px]
+    "
+              >
+                {homepageContact.buttonText}
+              </a>
+            )}
           </form>
         </div>
       </div>

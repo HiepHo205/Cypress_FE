@@ -136,9 +136,11 @@ export const GET_HOMEPAGE = gql`
       }
 
       news {
+        label
+        title
+
         news {
           id
-
           category
           date
           title

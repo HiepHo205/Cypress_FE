@@ -10,6 +10,7 @@ import {
   HomeNews,
   HomeContact,
   HomeBusinessGrowth,
+  LaunchOffer,
 } from "@/src/modules/home/components";
 
 export default function HomePage() {
@@ -23,6 +24,7 @@ export default function HomePage() {
       <HomePricingBanner />
       <HomeSuccessStories />
       <HomeNews />
+      <LaunchOffer />
       <HomeContact />
     </main>
   );

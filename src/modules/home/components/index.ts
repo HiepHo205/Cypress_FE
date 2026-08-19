@@ -7,3 +7,4 @@ export { default as HomeSuccessStories } from "./HomeSuccessStories";
 export { default as HomeNews } from "./HomeNews";
 export { default as HomeContact } from "./HomeContact";
 export { default as HomeBusinessGrowth } from "./HomeBusinessGrowth";
+export { default as LaunchOffer } from "./LaunchOffer";

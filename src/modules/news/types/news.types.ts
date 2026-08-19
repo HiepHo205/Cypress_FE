@@ -15,8 +15,67 @@ export interface NewsPageItem {
   description?: string | null;
   category: string;
   date: string;
+  author?: string | null;
+  authorLogo?: CloudinaryImage | null;
+  status?: string | null;
   featured: boolean;
   image?: CloudinaryImage | null;
+  logo?: CloudinaryImage | null;
+  social_media?: NewsSocialMedia[] | string;
+  tableOfContents?: NewsTableOfContentsItem[] | string;
+  sections?: NewsDetailSection[] | string;
+}
+
+export interface NewsDetailSection {
+  id: string;
+  order?: number;
+  title?: string;
+  heading?: string;
+  description?: string;
+  content?: string;
+  image?: CloudinaryImage | null;
+  [key: string]: unknown;
+}
+
+export interface NewsTableOfContentsChild {
+  id?: string;
+  title?: string;
+  label?: string;
+  heading?: string;
+  [key: string]: unknown;
+}
+
+export interface NewsTableOfContentsItem {
+  id?: string;
+  order?: number;
+  title?: string;
+  label?: string;
+  heading?: string;
+  children?: NewsTableOfContentsChild[] | string;
+  subItems?: NewsTableOfContentsChild[] | string;
+  subsections?: NewsTableOfContentsChild[] | string;
+  items?: NewsTableOfContentsChild[] | string;
+  [key: string]: unknown;
+}
+
+export interface NewsSocialMedia {
+  name: string;
+  url: string;
+  icon?: CloudinaryImage | null;
+}
+
+export interface NewsDetail extends NewsPageItem {
+  author?: string | null;
+  authorLogo?: CloudinaryImage | null;
+  logo?: CloudinaryImage | null;
+  social_media?: NewsSocialMedia[] | string;
+  seriesTags?: string[] | string;
+  tableOfContents?: NewsTableOfContentsItem[] | string;
+  sections?: NewsDetailSection[] | string;
+}
+
+export interface NewsDetailProps {
+  id: string;
 }
 
 export interface NewsBanner {
@@ -47,6 +106,7 @@ export interface NewsPage {
   postCategories: NewsPostCategory[];
   latest: NewsPageItem[];
   featured: NewsPageItem[];
+  newsDetail?: NewsDetail | null;
 }
 
 export interface NewsPageResponse {
@@ -59,4 +119,8 @@ export interface NewsFilterProps {
   search: string;
   onCategoryChange: (category: string) => void;
   onSearchChange: (value: string) => void;
+}
+
+export interface RelatedNewsProps {
+  currentId: string;
 }

@@ -5,7 +5,7 @@ import { HomeService } from "../services/home.service";
 import type { HomepageData } from "../types/home.type";
 import { getCache, setCache, removeCache } from "@/src/utils/cache";
 
-const HOME_CACHE_KEY = "homepage_v2";
+const HOME_CACHE_KEY = "homepage_v3";
 
 export function useHome() {
   const [homepage, setHomepage] = useState<HomepageData | null>(null);
@@ -18,8 +18,6 @@ export function useHome() {
       const cached = getCache<HomepageData>(HOME_CACHE_KEY);
 
       if (cached) {
-        console.log("Homepage: using cached data");
-
         if (mounted) {
           setHomepage(cached);
           setLoading(false);
@@ -29,8 +27,6 @@ export function useHome() {
       }
 
       try {
-        console.log("Homepage: fetching from API");
-
         const data = await HomeService.getHomepage();
 
         if (!data) {
@@ -43,8 +39,6 @@ export function useHome() {
           setHomepage(data);
         }
       } catch (error) {
-        console.error("Failed to fetch homepage:", error);
-
         removeCache(HOME_CACHE_KEY);
       } finally {
         if (mounted) {

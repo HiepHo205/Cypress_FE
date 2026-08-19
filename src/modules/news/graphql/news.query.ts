@@ -18,10 +18,30 @@ export const GET_NEWS_PAGE = gql`
         description
         category
         date
+        author
+        status
         featured
+
         image {
           url
           public_id
+        }
+
+        logo {
+          url
+          public_id
+        }
+
+        tableOfContents
+        sections
+
+        social_media {
+          name
+          icon {
+            url
+            public_id
+          }
+          url
         }
       }
 
@@ -31,10 +51,30 @@ export const GET_NEWS_PAGE = gql`
         description
         category
         date
+        author
+        status
         featured
+
         image {
           url
           public_id
+        }
+
+        logo {
+          url
+          public_id
+        }
+
+        tableOfContents
+        sections
+
+        social_media {
+          name
+          icon {
+            url
+            public_id
+          }
+          url
         }
       }
     }

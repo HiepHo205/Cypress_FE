@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useMemo, useState } from "react";
 
 import type { NewsPage, NewsPageItem } from "../types/news.types";
 
@@ -21,6 +23,10 @@ export default function NewFeaturedBlogs({
   search = "",
 }: NewFeaturedBlogsProps) {
   const [currentPage, setCurrentPage] = useState(1);
+
+  const params = useParams();
+
+  const locale = typeof params?.locale === "string" ? params.locale : "vi";
 
   const safeCategory = selectedCategory || "All Posts";
 
@@ -86,7 +92,7 @@ export default function NewFeaturedBlogs({
             <>
               <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
                 {currentBlogs.map((blog) => (
-                  <BlogCard key={blog.id} blog={blog} />
+                  <BlogCard key={blog.id} blog={blog} locale={locale} />
                 ))}
               </div>
 
@@ -105,42 +111,44 @@ export default function NewFeaturedBlogs({
   );
 }
 
-function BlogCard({ blog }: { blog: NewsPageItem }) {
+function BlogCard({ blog, locale }: { blog: NewsPageItem; locale: string }) {
   return (
-    <article className="group min-w-0">
-      <div className="relative h-[220px] w-full overflow-hidden rounded-xl bg-[#eeeeee] sm:h-[230px] lg:h-[240px]">
-        {blog.image?.url ? (
-          <Image
-            src={blog.image.url}
-            alt={blog.title || "Featured blog"}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-          />
-        ) : (
-          <div className="h-full w-full bg-[#eeeeee]" />
+    <Link href={`/${locale}/news/${blog.id}`} className="group block min-w-0">
+      <article className="min-w-0">
+        <div className="relative h-[220px] w-full overflow-hidden rounded-xl bg-[#eeeeee] sm:h-[230px] lg:h-[240px]">
+          {blog.image?.url ? (
+            <Image
+              src={blog.image.url}
+              alt={blog.title || "Featured blog"}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+            />
+          ) : (
+            <div className="h-full w-full bg-[#eeeeee]" />
+          )}
+        </div>
+
+        <div className="mt-4 flex items-center justify-between gap-3">
+          <span className="font-['Inter'] text-[14px] font-medium leading-5 text-[#888]">
+            {blog.date}
+          </span>
+
+          <span className="shrink-0 rounded-full border border-[#b8d5f5] bg-[#f5f9ff] px-3 py-1 font-['Inter'] text-[12px] font-medium leading-4 text-[#4c8bd9]">
+            {blog.category || "Uncategorized"}
+          </span>
+        </div>
+
+        <h3 className="mt-3 line-clamp-2 font-['Inter'] text-[18px] font-bold leading-6 tracking-[-0.1px] text-[#222]">
+          {blog.title}
+        </h3>
+
+        {blog.description && (
+          <p className="mt-2 line-clamp-2 font-['Inter'] text-[14px] font-medium leading-5 text-[#777]">
+            {blog.description}
+          </p>
         )}
-      </div>
-
-      <div className="mt-4 flex items-center justify-between gap-3">
-        <span className="font-['Inter'] text-[14px] font-medium leading-5 text-[#888]">
-          {blog.date}
-        </span>
-
-        <span className="shrink-0 rounded-full border border-[#b8d5f5] bg-[#f5f9ff] px-3 py-1 font-['Inter'] text-[12px] font-medium leading-4 text-[#4c8bd9]">
-          {blog.category || "Uncategorized"}
-        </span>
-      </div>
-
-      <h3 className="mt-3 line-clamp-2 font-['Inter'] text-[18px] font-bold leading-6 tracking-[-0.1px] text-[#222]">
-        {blog.title}
-      </h3>
-
-      {blog.description && (
-        <p className="mt-2 line-clamp-2 font-['Inter'] text-[14px] font-medium leading-5 text-[#777]">
-          {blog.description}
-        </p>
-      )}
-    </article>
+      </article>
+    </Link>
   );
 }

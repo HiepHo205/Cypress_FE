@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import { useMemo } from "react";
 
 import type { NewsPage, NewsPageItem } from "../types/news.types";
@@ -50,12 +52,36 @@ export default function NewsList({
   selectedCategory = "All Posts",
   search = "",
 }: NewsListProps) {
+  const params = useParams();
+
+  const locale = typeof params?.locale === "string" ? params.locale : "vi";
+
+  const allNews = useMemo<NewsPageItem[]>(() => {
+    const items = [...(news?.latest ?? []), ...(news?.featured ?? [])];
+
+    const uniqueNews = new Map<string, NewsPageItem>();
+
+    items.forEach((item) => {
+      const existing = uniqueNews.get(String(item.id));
+
+      if (existing) {
+        uniqueNews.set(String(item.id), {
+          ...existing,
+          ...item,
+        });
+      } else {
+        uniqueNews.set(String(item.id), item);
+      }
+    });
+
+    return Array.from(uniqueNews.values());
+  }, [news]);
+
   const filteredNews = useMemo(() => {
     const keyword = search.trim().toLowerCase();
-
     const category = selectedCategory.trim().toLowerCase();
 
-    return (news?.latest ?? []).filter((item) => {
+    return allNews.filter((item) => {
       const itemCategory = item.category?.trim().toLowerCase() ?? "";
 
       const matchCategory =
@@ -69,7 +95,7 @@ export default function NewsList({
 
       return matchCategory && matchSearch;
     });
-  }, [news, selectedCategory, search]);
+  }, [allNews, selectedCategory, search]);
 
   const [mainNews, ...restNews] = filteredNews;
 
@@ -91,97 +117,110 @@ export default function NewsList({
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-6 lg:h-[620px] lg:grid-cols-[1.45fr_0.9fr_1.15fr]">
-            <article className="flex h-full min-w-0 flex-col overflow-hidden rounded-xl bg-white">
-              <NewsImage
-                item={mainNews}
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="relative h-[300px] shrink-0 overflow-hidden sm:h-[340px] lg:h-[330px]"
-              />
+            <Link
+              href={`/${locale}/news/${mainNews.id}`}
+              className="block min-w-0"
+            >
+              <article className="flex h-full min-w-0 flex-col overflow-hidden rounded-xl bg-white">
+                <NewsImage
+                  item={mainNews}
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="relative h-[300px] shrink-0 overflow-hidden sm:h-[340px] lg:h-[330px]"
+                />
 
-              <div className="flex flex-1 flex-col p-5">
-                <div className="flex items-center justify-between gap-4">
-                  <span className="font-['Inter'] text-[14px] text-[#777]">
-                    {mainNews.date}
-                  </span>
+                <div className="flex flex-1 flex-col p-5">
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="font-['Inter'] text-[14px] text-[#777]">
+                      {mainNews.date}
+                    </span>
 
-                  <CategoryBadge category={mainNews.category} />
+                    <CategoryBadge category={mainNews.category} />
+                  </div>
+
+                  <h3 className="mt-3 line-clamp-3 font-['Inter'] text-[22px] font-bold leading-[30px] text-[#292929]">
+                    {mainNews.title}
+                  </h3>
+
+                  {mainNews.description && (
+                    <p className="mt-3 line-clamp-5 font-['Inter'] text-[15px] leading-6 text-[#666]">
+                      {mainNews.description}
+                    </p>
+                  )}
                 </div>
-
-                <h3 className="mt-3 line-clamp-3 font-['Inter'] text-[22px] font-bold leading-[30px] text-[#292929]">
-                  {mainNews.title}
-                </h3>
-
-                {mainNews.description && (
-                  <p className="mt-3 line-clamp-5 font-['Inter'] text-[15px] leading-6 text-[#666]">
-                    {mainNews.description}
-                  </p>
-                )}
-              </div>
-            </article>
+              </article>
+            </Link>
 
             <div className="grid h-full min-w-0 grid-rows-2 gap-6">
               {middleNews.map((item) => (
-                <article
+                <Link
                   key={item.id}
-                  className="flex h-full min-w-0 flex-col overflow-hidden rounded-xl bg-white"
+                  href={`/${locale}/news/${item.id}`}
+                  className="block min-w-0"
                 >
-                  <NewsImage
-                    item={item}
-                    sizes="(max-width: 1024px) 100vw, 300px"
-                    className="relative h-[170px] shrink-0 overflow-hidden"
-                  />
+                  <article className="flex h-full min-w-0 flex-col overflow-hidden rounded-xl bg-white">
+                    <NewsImage
+                      item={item}
+                      sizes="(max-width: 1024px) 100vw, 300px"
+                      className="relative h-[170px] shrink-0 overflow-hidden"
+                    />
 
-                  <div className="flex flex-1 flex-col p-4">
-                    <div className="flex items-center justify-between gap-3">
-                      <span className="truncate font-['Inter'] text-[12px] text-[#888]">
+                    <div className="flex flex-1 flex-col p-4">
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="truncate font-['Inter'] text-[12px] text-[#888]">
+                          {item.date}
+                        </span>
+
+                        <CategoryBadge category={item.category} />
+                      </div>
+
+                      <h3 className="mt-2 line-clamp-3 font-['Inter'] text-[15px] font-bold leading-5 text-[#292929]">
+                        {item.title}
+                      </h3>
+
+                      {item.description && (
+                        <p className="mt-2 line-clamp-3 font-['Inter'] text-[13px] leading-5 text-[#777]">
+                          {item.description}
+                        </p>
+                      )}
+                    </div>
+                  </article>
+                </Link>
+              ))}
+            </div>
+
+            <div className="flex h-full min-w-0 flex-col overflow-hidden rounded-xl bg-white px-5">
+              {sideNews.map((item, index) => (
+                <Link
+                  key={item.id}
+                  href={`/${locale}/news/${item.id}`}
+                  className="block min-h-0 flex-1"
+                >
+                  <article
+                    className={`flex h-full min-h-0 flex-col justify-center py-4 ${
+                      index < sideNews.length - 1
+                        ? "border-b border-[#dedede]"
+                        : ""
+                    }`}
+                  >
+                    <div className="mb-2 flex items-center justify-between gap-3">
+                      <span className="font-['Inter'] text-[12px] text-[#888]">
                         {item.date}
                       </span>
 
                       <CategoryBadge category={item.category} />
                     </div>
 
-                    <h3 className="mt-2 line-clamp-3 font-['Inter'] text-[15px] font-bold leading-5 text-[#292929]">
+                    <h3 className="line-clamp-2 font-['Inter'] text-[14px] font-bold leading-5 text-[#292929]">
                       {item.title}
                     </h3>
 
                     {item.description && (
-                      <p className="mt-2 line-clamp-3 font-['Inter'] text-[13px] leading-5 text-[#777]">
+                      <p className="mt-1 line-clamp-2 text-[12px] leading-5 text-[#777]">
                         {item.description}
                       </p>
                     )}
-                  </div>
-                </article>
-              ))}
-            </div>
-
-            <div className="flex h-full min-w-0 flex-col overflow-hidden rounded-xl bg-white px-5">
-              {sideNews.map((item, index) => (
-                <article
-                  key={item.id}
-                  className={`flex min-h-0 flex-1 flex-col justify-center py-4 ${
-                    index < sideNews.length - 1
-                      ? "border-b border-[#dedede]"
-                      : ""
-                  }`}
-                >
-                  <div className="mb-2 flex items-center justify-between gap-3">
-                    <span className="font-['Inter'] text-[12px] text-[#888]">
-                      {item.date}
-                    </span>
-
-                    <CategoryBadge category={item.category} />
-                  </div>
-
-                  <h3 className="line-clamp-2 font-['Inter'] text-[14px] font-bold leading-5 text-[#292929]">
-                    {item.title}
-                  </h3>
-
-                  {item.description && (
-                    <p className="mt-1 line-clamp-2 font-['Inter'] text-[12px] leading-5 text-[#777]">
-                      {item.description}
-                    </p>
-                  )}
-                </article>
+                  </article>
+                </Link>
               ))}
             </div>
           </div>

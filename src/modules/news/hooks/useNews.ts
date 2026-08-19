@@ -5,7 +5,7 @@ import type { NewsPage } from "../types/news.types";
 import { NewsService } from "../services/news.services";
 import { getCache, setCache, removeCache } from "@/src/utils/cache";
 
-const NEWS_CACHE_KEY = "news_page_v1";
+const NEWS_CACHE_KEY = "news_page_v2";
 
 let newsRequest: Promise<NewsPage> | null = null;
 
@@ -13,8 +13,12 @@ const fetchNews = async (): Promise<NewsPage> => {
   const cached = getCache<NewsPage>(NEWS_CACHE_KEY);
 
   if (cached) {
+    console.log("NEWS CACHE HIT:", cached);
+
     return cached;
   }
+
+  console.log("NEWS CACHE MISS - FETCH API");
 
   if (newsRequest) {
     return newsRequest;
@@ -22,6 +26,8 @@ const fetchNews = async (): Promise<NewsPage> => {
 
   newsRequest = NewsService.getNewsPage()
     .then((data) => {
+      console.log("NEWS API RESPONSE:", data);
+
       setCache<NewsPage>(NEWS_CACHE_KEY, data);
 
       return data;
@@ -46,7 +52,9 @@ interface UseNewsReturn {
 
 export function useNews(): UseNewsReturn {
   const [news, setNews] = useState<NewsPage | null>(null);
+
   const [loading, setLoading] = useState(true);
+
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {

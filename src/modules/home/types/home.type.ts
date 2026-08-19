@@ -177,6 +177,8 @@ export interface HomepageGeneralInformation {
 }
 
 export interface HomepageNewsData {
+  label: string;
+  title: string;
   news: HomepageNews[];
 }
 

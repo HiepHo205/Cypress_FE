@@ -1,5 +1,8 @@
 "use client";
 
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useMemo } from "react";
 import { useNews } from "../hooks/useNews";
 
 type ProjectItem = {
@@ -10,12 +13,38 @@ type ProjectItem = {
 };
 
 export default function OurProjects() {
+  const params = useParams();
+
+  const locale = typeof params?.locale === "string" ? params.locale : "vi";
+
   const { news, loading, error } = useNews();
+
+  const projects = useMemo(() => {
+    if (!news) {
+      return [];
+    }
+
+    const items = [
+      ...(news.featured ?? []).map((item: ProjectItem) => ({
+        ...item,
+        category: "featured" as const,
+      })),
+
+      ...(news.latest ?? []).map((item: ProjectItem) => ({
+        ...item,
+        category: "latest" as const,
+      })),
+    ];
+
+    return Array.from(
+      new Map(items.map((item) => [String(item.id), item])).values(),
+    ).slice(0, 5);
+  }, [news]);
 
   if (loading) {
     return (
       <section className="our-projects">
-        <h2>Our Projects</h2>
+        <h2 className="text-[16px] font-bold text-[#292929]">Our Projects</h2>
 
         <div className="project-list">
           {Array.from({ length: 5 }).map((_, index) => (
@@ -36,48 +65,55 @@ export default function OurProjects() {
   if (error) {
     return (
       <section className="our-projects">
-        <h2>Our Projects</h2>
-        <p>{error}</p>
+        <h2 className="text-[16px] font-bold text-[#292929]">Our Projects</h2>
+
+        <p className="mt-4 text-[12px] text-red-500">{error}</p>
       </section>
     );
   }
 
-  if (!news) {
+  if (!news || projects.length === 0) {
     return null;
   }
 
-  const projects = [
-    ...(news.featured ?? []).map((item: ProjectItem) => ({
-      ...item,
-      category: "featured" as const,
-    })),
-
-    ...(news.latest ?? []).map((item: ProjectItem) => ({
-      ...item,
-      category: "latest" as const,
-    })),
-  ];
-
   return (
     <section className="our-projects">
-      <h2>Our Projects</h2>
+      <h2 className="text-[16px] font-bold text-[#292929]">Our Projects</h2>
 
-      <div className="project-list">
+      <div className="project-list mt-2">
         {projects.map((project) => (
-          <article
-            className="project-item"
+          <Link
+            href={`/${locale}/news/${project.id}`}
+            className="project-item block cursor-pointer border-b border-[#E5E5E5] py-3 transition-colors hover:bg-[#FAFAFA]"
             key={`${project.category}-${project.id}`}
           >
-            <div className="project-meta">
-              <span className="project-date">{project.date}</span>
+            <div className="project-meta flex items-center justify-between gap-2">
+              <span className="project-date text-[11px] text-[#858585]">
+                {project.date}
+              </span>
 
-              <span className={`project-type ${project.category}`}>
+              <span
+                className="
+                  project-type
+                  rounded-full
+                  border
+                  border-[#BFD8FA]
+                  bg-[#F2F7FD]
+                  px-3
+                  py-[3px]
+                  text-[10px]
+                  font-medium
+                  text-[#246BCE]
+                "
+              >
                 {project.category === "featured" ? "Featured" : "Latest"}
               </span>
             </div>
 
-            <h3>{project.title}</h3>
-          </article>
+            <h3 className="mt-2 text-[12px] font-medium leading-[1.5] text-[#292929]">
+              {project.title}
+            </h3>
+          </Link>
         ))}
       </div>
     </section>

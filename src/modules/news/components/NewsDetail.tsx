@@ -9,6 +9,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useNews } from "@/src/modules/news/hooks/useNews";
 import { Loading } from "@/src/components/common";
 
+import OurProjects from "./OurProjects";
 import RelatedArticles from "./RelatedArticles";
 
 import type {
@@ -393,497 +394,498 @@ export default function NewsDetail({ id }: NewsDetailProps) {
 
   return (
     <main className="bg-white text-[#292929]">
-      <section className="px-5 pt-5">
-        <div className="mx-auto w-full max-w-[791px]">
-          <div className="flex flex-wrap items-center gap-x-2 text-[12px] leading-5 text-[#858585]">
-            <Link
-              href={banner.breadcrumb_first_url || "/"}
-              className="transition-colors hover:text-[#292929]"
-            >
-              {banner.breadcrumb_first || ""}
-            </Link>
+      <div className="mx-auto w-full max-w-[1100px] px-5">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,791px)_260px] lg:items-start">
+          <div className="min-w-0">
+            <section className="pt-5">
+              <div className="w-full">
+                <div className="flex flex-wrap items-center gap-x-2 text-[12px] leading-5 text-[#858585]">
+                  <Link
+                    href={banner.breadcrumb_first_url || "/"}
+                    className="transition-colors hover:text-[#292929]"
+                  >
+                    {banner.breadcrumb_first || ""}
+                  </Link>
 
-            <span>/</span>
+                  <span>/</span>
 
-            <Link
-              href={banner.breadcrumb_second_url || `/${locale}/news`}
-              className="transition-colors hover:text-[#292929]"
-            >
-              {banner.breadcrumb_second || ""}
-            </Link>
+                  <Link
+                    href={banner.breadcrumb_second_url || `/${locale}/news`}
+                    className="transition-colors hover:text-[#292929]"
+                  >
+                    {banner.breadcrumb_second || ""}
+                  </Link>
 
-            <span>/</span>
+                  <span>/</span>
 
-            <span className="truncate text-[#9B9B9B]">{currentNews.title}</span>
-          </div>
+                  <span className="truncate text-[#9B9B9B]">
+                    {currentNews.title}
+                  </span>
+                </div>
 
-          <h1
-            className="
-                            mt-3
-                            max-w-[791px]
-                            text-[30px]
-                            font-bold
-                            leading-[1.12]
-                            tracking-[-0.8px]
-                            text-[#292929]
-                            sm:text-[38px]
-                            lg:text-[40px]
-                        "
-          >
-            {currentNews.title}
-          </h1>
-
-          <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
-            <div className="flex flex-wrap items-center gap-2">
-              {currentNews.date && (
-                <span className="mr-1 text-[12px] text-[#858585]">
-                  {formatDate(currentNews.date)}
-                </span>
-              )}
-
-              {category && (
-                <span
+                <h1
                   className="
-                                        rounded-full
-                                        border
-                                        border-[#BFD8FA]
-                                        bg-[#F2F7FD]
-                                        px-3
-                                        py-[4px]
-                                        text-[11px]
-                                        font-medium
-                                        text-[#246BCE]
-                                    "
+                  mt-3
+                  max-w-[791px]
+                  text-[30px]
+                  font-bold
+                  leading-[1.12]
+                  tracking-[-0.8px]
+                  text-[#292929]
+                  sm:text-[38px]
+                  lg:text-[40px]
+                "
                 >
-                  {category}
-                </span>
-              )}
-            </div>
+                  {currentNews.title}
+                </h1>
 
-            {socialMedia.length > 0 && (
-              <div className="flex items-center gap-2">
-                <span className="mr-1 text-[12px] text-[#858585]">Share</span>
+                <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex flex-wrap items-center gap-2">
+                    {currentNews.date && (
+                      <span className="mr-1 text-[12px] text-[#858585]">
+                        {formatDate(currentNews.date)}
+                      </span>
+                    )}
 
-                {socialMedia.map((social, index) => {
-                  const iconUrl = getImageUrl(social.icon);
+                    {category && (
+                      <span
+                        className="
+                        rounded-full
+                        border
+                        border-[#BFD8FA]
+                        bg-[#F2F7FD]
+                        px-3
+                        py-[4px]
+                        text-[11px]
+                        font-medium
+                        text-[#246BCE]
+                      "
+                      >
+                        {category}
+                      </span>
+                    )}
+                  </div>
 
-                  return (
-                    <a
-                      key={`${social.name}-${index}`}
-                      href={social.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Share on ${social.name}`}
+                  {socialMedia.length > 0 && (
+                    <div className="flex items-center gap-2">
+                      <span className="mr-1 text-[12px] text-[#858585]">
+                        Share
+                      </span>
+
+                      {socialMedia.map((social, index) => {
+                        const iconUrl = getImageUrl(social.icon);
+
+                        return (
+                          <a
+                            key={`${social.name}-${index}`}
+                            href={social.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`Share on ${social.name}`}
+                            className="
+                            flex
+                            h-7
+                            w-7
+                            items-center
+                            justify-center
+                            rounded-full
+                            border
+                            border-[#E2E2E2]
+                            text-[12px]
+                            font-semibold
+                            text-[#666]
+                            transition
+                            hover:border-[#292929]
+                            hover:text-[#292929]
+                          "
+                          >
+                            {iconUrl ? (
+                              <img
+                                src={iconUrl}
+                                alt={social.name || "Social media"}
+                                width={16}
+                                height={16}
+                                className="h-4 w-4 object-contain"
+                              />
+                            ) : (
+                              <span>
+                                {social.name?.charAt(0).toUpperCase()}
+                              </span>
+                            )}
+                          </a>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+
+                <div className="mt-5 h-px bg-[#E5E5E5]" />
+
+                <div className="flex min-h-[68px] flex-wrap items-center justify-between gap-5">
+                  <div className="flex items-center gap-3">
+                    <div
                       className="
-                                                    flex
-                                                    h-7
-                                                    w-7
-                                                    items-center
-                                                    justify-center
-                                                    rounded-full
-                                                    border
-                                                    border-[#E2E2E2]
-                                                    text-[12px]
-                                                    font-semibold
-                                                    text-[#666]
-                                                    transition
-                                                    hover:border-[#292929]
-                                                    hover:text-[#292929]
-                                                "
+                      flex
+                      h-9
+                      w-9
+                      shrink-0
+                      items-center
+                      justify-center
+                      overflow-hidden
+                      rounded-[5px]
+                      border
+                      border-[#E0E0E0]
+                      bg-white
+                    "
                     >
-                      {iconUrl ? (
-                        <img
-                          src={iconUrl}
-                          alt={social.name || "Social media"}
-                          width={16}
-                          height={16}
-                          className="h-4 w-4 object-contain"
+                      {authorLogo ? (
+                        <Image
+                          src={authorLogo}
+                          alt={author || "Author"}
+                          width={36}
+                          height={36}
+                          className="h-full w-full object-contain p-1"
                         />
                       ) : (
-                        <span>{social.name?.charAt(0).toUpperCase()}</span>
-                      )}
-                    </a>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-
-          <div className="mt-5 h-px bg-[#E5E5E5]" />
-
-          <div className="flex min-h-[68px] flex-wrap items-center justify-between gap-5">
-            <div className="flex items-center gap-3">
-              <div
-                className="
-                                    flex
-                                    h-9
-                                    w-9
-                                    shrink-0
-                                    items-center
-                                    justify-center
-                                    overflow-hidden
-                                    rounded-[5px]
-                                    border
-                                    border-[#E0E0E0]
-                                    bg-white
-                                "
-              >
-                {authorLogo ? (
-                  <Image
-                    src={authorLogo}
-                    alt={author || "Author"}
-                    width={36}
-                    height={36}
-                    className="h-full w-full object-contain p-1"
-                  />
-                ) : (
-                  <span className="text-[10px] font-bold text-[#D12B36]">
-                    NEWS
-                  </span>
-                )}
-              </div>
-
-              <span className="text-[13px] font-semibold text-[#292929]">
-                {author}
-              </span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {topContentImage && (
-        <section className="px-5 pb-8">
-          <div className="mx-auto w-full max-w-[791px] overflow-hidden rounded-[16px]">
-            <Image
-              src={topContentImage}
-              alt="News content"
-              width={1200}
-              height={800}
-              className="block h-auto w-full object-cover"
-            />
-          </div>
-        </section>
-      )}
-
-      {tableOfContents.length > 0 && (
-        <section className="px-5 pb-8 pt-2">
-          <div className="mx-auto flex justify-center">
-            <div
-              className="
-                                w-full
-                                max-w-[636px]
-                                overflow-hidden
-                                rounded-[16px]
-                                border
-                                border-[#D6D6D6]
-                                px-6
-                                py-4
-                            "
-            >
-              <div className="mb-2 text-[11px] font-medium uppercase tracking-[0.2px] text-[#246BCE]">
-                Table of Content
-              </div>
-
-              <div className="space-y-0.5 overflow-hidden">
-                {tableOfContents.map((item, index) => {
-                  const sectionNumber = index + 1;
-
-                  const sectionTitle = getTitle(item);
-
-                  const mainSection = mainSections.find(
-                    (section) =>
-                      getMainSectionNumber(section) === sectionNumber,
-                  );
-
-                  const sectionId =
-                    mainSection?.id ?? `content-${sectionNumber}`;
-
-                  const children = getTocChildren(item);
-
-                  return (
-                    <div key={item.id ?? sectionId}>
-                      <a
-                        href={`#${sectionId}`}
-                        className="
-                                                        block
-                                                        truncate
-                                                        text-[13px]
-                                                        font-medium
-                                                        leading-6
-                                                        text-[#292929]
-                                                        transition-colors
-                                                        hover:text-[#246BCE]
-                                                    "
-                      >
-                        {sectionNumber} {sectionTitle}
-                      </a>
-
-                      {children.length > 0 && (
-                        <div className="ml-5">
-                          {children.map((child, childIndex) => {
-                            const childTitle =
-                              typeof child === "string"
-                                ? child
-                                : getTitle(child);
-
-                            const mainNumber = sectionNumber;
-
-                            const childNumber = childIndex + 1;
-
-                            const childSection = sections.find((section) => {
-                              const sectionNumberValue =
-                                getSectionNumber(section);
-
-                              return (
-                                sectionNumberValue ===
-                                `${mainNumber}.${childNumber}`
-                              );
-                            });
-
-                            const childId =
-                              childSection?.id ??
-                              `content-${sectionNumber}-${childNumber}`;
-
-                            return (
-                              <a
-                                key={childId}
-                                href={`#${childId}`}
-                                className="
-                                                                            block
-                                                                            truncate
-                                                                            text-[12px]
-                                                                            leading-6
-                                                                            text-[#858585]
-                                                                            transition-colors
-                                                                            hover:text-[#246BCE]
-                                                                        "
-                              >
-                                {sectionNumber}.{childNumber} {childTitle}
-                              </a>
-                            );
-                          })}
-                        </div>
+                        <span className="text-[10px] font-bold text-[#D12B36]">
+                          NEWS
+                        </span>
                       )}
                     </div>
-                  );
-                })}
+
+                    <span className="text-[13px] font-semibold text-[#292929]">
+                      {author}
+                    </span>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </section>
-      )}
+            </section>
 
-      <section className="px-5 pb-12">
-        <article
-          className="
-                        mx-auto
-                        w-full
-                        max-w-[791px]
-                        overflow-hidden
-                        rounded-[16px]
-                        bg-white
-                        px-6
-                        py-4
-                    "
-        >
-          {mainSections.length > 0 ? (
-            <div className="space-y-8">
-              {mainSections.map((section) => {
-                const actualSectionNumber = getMainSectionNumber(section);
-
-                const sectionNumber = actualSectionNumber ?? 0;
-
-                const sectionId = section.id ?? `content-${sectionNumber}`;
-
-                const tocItem =
-                  tableOfContents.find(
-                    (item) => Number(item.order ?? 0) === sectionNumber,
-                  ) ?? tableOfContents[sectionNumber - 1];
-
-                const titleFromSection = getTitle(section);
-
-                const titleFromToc = getTitle(tocItem);
-
-                const title = titleFromSection || titleFromToc;
-
-                const content = getContent(section);
-
-                const subSections = getSubSections(section);
-
-                return (
-                  <section
-                    key={sectionId}
-                    id={sectionId}
-                    className="scroll-mt-10"
-                  >
-                    {title && (
-                      <h2 className="mb-1 text-[15px] font-semibold leading-6 text-[#292929]">
-                        {sectionNumber}. {title}
-                      </h2>
-                    )}
-
-                    {content && (
-                      <div
-                        className="
-                                                        text-[12px]
-                                                        leading-[1.75]
-                                                        text-[#747474]
-                                                        [&_p]:mb-4
-                                                        [&_p:last-child]:mb-0
-                                                        [&_strong]:font-semibold
-                                                        [&_strong]:text-[#292929]
-                                                        [&_ul]:mb-4
-                                                        [&_ul]:list-disc
-                                                        [&_ul]:pl-5
-                                                        [&_ol]:mb-4
-                                                        [&_ol]:list-decimal
-                                                        [&_ol]:pl-5
-                                                        [&_li]:mb-1
-                                                    "
-                        dangerouslySetInnerHTML={{
-                          __html: content,
-                        }}
-                      />
-                    )}
-
-                    {subSections.length > 0 && (
-                      <div className="mt-5 space-y-5">
-                        {subSections.map((child) => {
-                          const childNumber = getSectionNumber(child) ?? "";
-
-                          const childTitle = getTitle(child);
-
-                          const childContent = getContent(child);
-
-                          const childId =
-                            child.id ??
-                            `content-${childNumber.replace(".", "-")}`;
-
-                          return (
-                            <div
-                              key={childId}
-                              id={childId}
-                              className="scroll-mt-10"
-                            >
-                              {childTitle && (
-                                <h3 className="mb-1 text-[13px] font-semibold leading-6 text-[#292929]">
-                                  {childNumber} {childTitle}
-                                </h3>
-                              )}
-
-                              {childContent && (
-                                <div
-                                  className="
-                                                                                text-[12px]
-                                                                                leading-[1.75]
-                                                                                text-[#747474]
-                                                                                [&_p]:mb-4
-                                                                                [&_p:last-child]:mb-0
-                                                                                [&_strong]:font-semibold
-                                                                                [&_strong]:text-[#292929]
-                                                                                [&_ul]:mb-4
-                                                                                [&_ul]:list-disc
-                                                                                [&_ul]:pl-5
-                                                                                [&_ol]:mb-4
-                                                                                [&_ol]:list-decimal
-                                                                                [&_ol]:pl-5
-                                                                                [&_li]:mb-1
-                                                                            "
-                                  dangerouslySetInnerHTML={{
-                                    __html: childContent,
-                                  }}
-                                />
-                              )}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </section>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="py-10 text-center text-[12px] text-[#858585]">
-              No content available.
-            </div>
-          )}
-        </article>
-      </section>
-
-      <section className="px-5 pb-10">
-        <div className="mx-auto w-full max-w-[791px] border-t border-[#E5E5E5] pt-5">
-          <div className="flex items-center justify-between gap-8">
-            <div className="min-w-0 flex-1">
-              {previousNews ? (
-                <Link
-                  href={`/${locale}/news/${previousNews.id}`}
-                  className="group flex min-w-0 items-center gap-2"
-                >
-                  <ArrowLeft
-                    size={20}
-                    strokeWidth={1.5}
-                    className="
-                                            shrink-0
-                                            text-[#858585]
-                                            transition-transform
-                                            group-hover:-translate-x-1
-                                        "
+            {topContentImage && (
+              <section className="pb-8">
+                <div className="w-full overflow-hidden rounded-[16px]">
+                  <Image
+                    src={topContentImage}
+                    alt="News content"
+                    width={1200}
+                    height={800}
+                    className="block h-auto w-full object-cover"
                   />
+                </div>
+              </section>
+            )}
 
-                  <div className="min-w-0 truncate text-[13px] leading-5">
-                    <span className="mr-2 text-[#858585]">Previous:</span>
-
-                    <span className="font-medium text-[#292929]">
-                      {previousNews.title}
-                    </span>
+            {tableOfContents.length > 0 && (
+              <section className="pb-8 pt-2">
+                <div className="mx-auto w-full max-w-[636px] overflow-hidden rounded-[16px] border border-[#D6D6D6] px-6 py-4">
+                  <div className="mb-2 text-[11px] font-medium uppercase tracking-[0.2px] text-[#246BCE]">
+                    Table of Content
                   </div>
-                </Link>
-              ) : (
-                <span className="invisible">Previous</span>
-              )}
-            </div>
 
-            <div className="min-w-0 flex-1">
-              {nextNews ? (
-                <Link
-                  href={`/${locale}/news/${nextNews.id}`}
-                  className="
-                                        group
-                                        flex
-                                        min-w-0
-                                        items-center
-                                        justify-end
-                                        gap-2
-                                        text-right
+                  <div className="space-y-0.5 overflow-hidden">
+                    {tableOfContents.map((item, index) => {
+                      const sectionNumber = index + 1;
+                      const sectionTitle = getTitle(item);
+
+                      const mainSection = mainSections.find(
+                        (section) =>
+                          getMainSectionNumber(section) === sectionNumber,
+                      );
+
+                      const sectionId =
+                        mainSection?.id ?? `content-${sectionNumber}`;
+
+                      const children = getTocChildren(item);
+
+                      return (
+                        <div key={item.id ?? sectionId}>
+                          <a
+                            href={`#${sectionId}`}
+                            className="
+                            block
+                            truncate
+                            text-[13px]
+                            font-medium
+                            leading-6
+                            text-[#292929]
+                            transition-colors
+                            hover:text-[#246BCE]
+                          "
+                          >
+                            {sectionNumber} {sectionTitle}
+                          </a>
+
+                          {children.length > 0 && (
+                            <div className="ml-5">
+                              {children.map((child, childIndex) => {
+                                const childTitle =
+                                  typeof child === "string"
+                                    ? child
+                                    : getTitle(child);
+
+                                const childNumber = childIndex + 1;
+
+                                const childSection = sections.find(
+                                  (section) => {
+                                    return (
+                                      getSectionNumber(section) ===
+                                      `${sectionNumber}.${childNumber}`
+                                    );
+                                  },
+                                );
+
+                                const childId =
+                                  childSection?.id ??
+                                  `content-${sectionNumber}-${childNumber}`;
+
+                                return (
+                                  <a
+                                    key={childId}
+                                    href={`#${childId}`}
+                                    className="
+                                      block
+                                      truncate
+                                      text-[12px]
+                                      leading-6
+                                      text-[#858585]
+                                      transition-colors
+                                      hover:text-[#246BCE]
                                     "
-                >
-                  <div className="min-w-0 truncate text-[13px] leading-5">
-                    <span className="mr-2 text-[#858585]">Next:</span>
+                                  >
+                                    {sectionNumber}.{childNumber} {childTitle}
+                                  </a>
+                                );
+                              })}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </section>
+            )}
 
-                    <span className="font-medium text-[#292929]">
-                      {nextNews.title}
-                    </span>
+            <section className="pb-12">
+              <article
+                className="
+                w-full
+                overflow-hidden
+                rounded-[16px]
+                bg-white
+                px-0
+                py-4
+              "
+              >
+                {mainSections.length > 0 ? (
+                  <div className="space-y-8">
+                    {mainSections.map((section) => {
+                      const actualSectionNumber = getMainSectionNumber(section);
+
+                      const sectionNumber = actualSectionNumber ?? 0;
+
+                      const sectionId =
+                        section.id ?? `content-${sectionNumber}`;
+
+                      const tocItem =
+                        tableOfContents.find(
+                          (item) => Number(item.order ?? 0) === sectionNumber,
+                        ) ?? tableOfContents[sectionNumber - 1];
+
+                      const titleFromSection = getTitle(section);
+
+                      const titleFromToc = getTitle(tocItem);
+
+                      const title = titleFromSection || titleFromToc;
+
+                      const content = getContent(section);
+
+                      const subSections = getSubSections(section);
+
+                      return (
+                        <section
+                          key={sectionId}
+                          id={sectionId}
+                          className="scroll-mt-10"
+                        >
+                          {title && (
+                            <h2 className="mb-1 text-[15px] font-semibold leading-6 text-[#292929]">
+                              {sectionNumber}. {title}
+                            </h2>
+                          )}
+
+                          {content && (
+                            <div
+                              className="
+                              text-[12px]
+                              leading-[1.75]
+                              text-[#747474]
+                              [&_p]:mb-4
+                              [&_p:last-child]:mb-0
+                              [&_strong]:font-semibold
+                              [&_strong]:text-[#292929]
+                              [&_ul]:mb-4
+                              [&_ul]:list-disc
+                              [&_ul]:pl-5
+                              [&_ol]:mb-4
+                              [&_ol]:list-decimal
+                              [&_ol]:pl-5
+                              [&_li]:mb-1
+                            "
+                              dangerouslySetInnerHTML={{
+                                __html: content,
+                              }}
+                            />
+                          )}
+
+                          {subSections.length > 0 && (
+                            <div className="mt-5 space-y-5">
+                              {subSections.map((child) => {
+                                const childNumber =
+                                  getSectionNumber(child) ?? "";
+
+                                const childTitle = getTitle(child);
+
+                                const childContent = getContent(child);
+
+                                const childId =
+                                  child.id ??
+                                  `content-${childNumber.replace(".", "-")}`;
+
+                                return (
+                                  <div
+                                    key={childId}
+                                    id={childId}
+                                    className="scroll-mt-10"
+                                  >
+                                    {childTitle && (
+                                      <h3 className="mb-1 text-[13px] font-semibold leading-6 text-[#292929]">
+                                        {childNumber} {childTitle}
+                                      </h3>
+                                    )}
+
+                                    {childContent && (
+                                      <div
+                                        className="
+                                        text-[12px]
+                                        leading-[1.75]
+                                        text-[#747474]
+                                        [&_p]:mb-4
+                                        [&_p:last-child]:mb-0
+                                        [&_strong]:font-semibold
+                                        [&_strong]:text-[#292929]
+                                        [&_ul]:mb-4
+                                        [&_ul]:list-disc
+                                        [&_ul]:pl-5
+                                        [&_ol]:mb-4
+                                        [&_ol]:list-decimal
+                                        [&_ol]:pl-5
+                                        [&_li]:mb-1
+                                      "
+                                        dangerouslySetInnerHTML={{
+                                          __html: childContent,
+                                        }}
+                                      />
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
+                        </section>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="py-10 text-center text-[12px] text-[#858585]">
+                    No content available.
+                  </div>
+                )}
+              </article>
+            </section>
+
+            <section className="pb-10">
+              <div className="border-t border-[#E5E5E5] pt-5">
+                <div className="flex items-center justify-between gap-8">
+                  <div className="min-w-0 flex-1">
+                    {previousNews ? (
+                      <Link
+                        href={`/${locale}/news/${previousNews.id}`}
+                        className="group flex min-w-0 items-center gap-2"
+                      >
+                        <ArrowLeft
+                          size={20}
+                          strokeWidth={1.5}
+                          className="
+                          shrink-0
+                          text-[#858585]
+                          transition-transform
+                          group-hover:-translate-x-1
+                        "
+                        />
+
+                        <div className="min-w-0 truncate text-[13px] leading-5">
+                          <span className="mr-2 text-[#858585]">Previous:</span>
+
+                          <span className="font-medium text-[#292929]">
+                            {previousNews.title}
+                          </span>
+                        </div>
+                      </Link>
+                    ) : (
+                      <span className="invisible">Previous</span>
+                    )}
                   </div>
 
-                  <ArrowRight
-                    size={20}
-                    strokeWidth={1.5}
-                    className="
-                                            shrink-0
-                                            text-[#858585]
-                                            transition-transform
-                                            group-hover:translate-x-1
-                                        "
-                  />
-                </Link>
-              ) : (
-                <span className="invisible">Next</span>
-              )}
-            </div>
+                  <div className="min-w-0 flex-1">
+                    {nextNews ? (
+                      <Link
+                        href={`/${locale}/news/${nextNews.id}`}
+                        className="
+                        group
+                        flex
+                        min-w-0
+                        items-center
+                        justify-end
+                        gap-2
+                        text-right
+                      "
+                      >
+                        <div className="min-w-0 truncate text-[13px] leading-5">
+                          <span className="mr-2 text-[#858585]">Next:</span>
+
+                          <span className="font-medium text-[#292929]">
+                            {nextNews.title}
+                          </span>
+                        </div>
+
+                        <ArrowRight
+                          size={20}
+                          strokeWidth={1.5}
+                          className="
+                          shrink-0
+                          text-[#858585]
+                          transition-transform
+                          group-hover:translate-x-1
+                        "
+                        />
+                      </Link>
+                    ) : (
+                      <span className="invisible">Next</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </section>
           </div>
+
+          <aside className="hidden lg:block">
+            <div className="sticky top-5">
+              <OurProjects />
+            </div>
+          </aside>
         </div>
-      </section>
+      </div>
 
       <RelatedArticles currentId={id} />
     </main>
